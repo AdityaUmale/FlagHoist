@@ -125,7 +125,7 @@ export default function Home() {
               <div>
                 <h1 className="text-2xl font-bold text-black">
                   <span className="text-[#FF9933]">Republic Day</span>{' '}
-                  <span className="text-[#138808]">Flag Hosting</span>
+                  <span className="text-[#138808]">Flag Hoisting</span>
                 </h1>
                 <p className="text-sm text-black">Find nearest locations to hoist the Tiranga</p>
               </div>
