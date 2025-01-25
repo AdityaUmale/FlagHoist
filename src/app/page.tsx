@@ -285,12 +285,19 @@ export default function Home() {
       </main>
 
       {/* Footer */}
-      <footer className="bg-white text-black py-8 mt-16">
-        <div className="text-center">
-          <p className="text-lg font-medium">Republic Day Flag Hoisting</p>
-          <p className="text-sm">Developed by Aditya Umale </p>
-        </div>
-      </footer>
+      <footer className="bg-[#0C4B2F] text-white py-8 mt-16">
+  <div className="text-center">
+    <p className="text-xl font-semibold mb-2">
+      Developed by <span className="text-[#FF9933]">Aditya Umale</span>
+    </p>
+    <div className="flex justify-center space-x-4">
+      <div className="w-6 h-6 bg-[#FF9933] rounded-full"></div>
+      <div className="w-6 h-6 bg-white rounded-full"></div>
+      <div className="w-6 h-6 bg-[#138808] rounded-full"></div>
+    </div>
+  </div>
+</footer>
+
     </div>
   );
 }
