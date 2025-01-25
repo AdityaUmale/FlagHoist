@@ -225,7 +225,7 @@ export default function Home() {
                   className="mr-3"
                   alt="Ashoka Chakra"
                 />
-                Nearby Potential Flag Hositing Locations.
+                Nearby Potential Flag Hoisting Locations.
               </h2>
               
               {loading ? (
