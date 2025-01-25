@@ -20,7 +20,7 @@ export async function GET(request: Request) {
         params: {
           location: `${lat},${lng}`,
           radius: 5000,
-          type: "school|university|college ",
+          type: "school|university|college|government_office ",
           key: process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY,
         },
       }

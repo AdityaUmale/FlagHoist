@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { GoogleMap, LoadScript, Marker, DirectionsService, DirectionsRenderer } from "@react-google-maps/api";
 import { FiMapPin, FiFlag } from "react-icons/fi";
 import { debounce } from "lodash";
+import Image from "next/image"; // Added Next.js Image component
 
 interface UserLocation {
   lat: number;
@@ -58,17 +59,21 @@ export default function Home() {
             lng: longitude,
           });
         },
-        (err) => {
+        () => { // Removed unused err parameter
           setError("Please enable location access to find nearby locations.");
         },
-        { enableHighAccuracy: true }
+        {   enableHighAccuracy: true, // Requests GPS if available
+          maximumAge: 0, // No cache, fresh position
+          timeout: 10000 
+         }
       );
     } else {
       setError("Geolocation is not supported by your browser.");
     }
   };
 
-  const fetchLocations = debounce(async (lat: number, lng: number) => {
+  // Added useCallback for fetchLocations
+  const fetchLocations = useCallback(debounce(async (lat: number, lng: number) => {
     if (isNaN(lat) || isNaN(lng)) {
       setError("Invalid coordinates received. Unable to fetch locations.");
       return;
@@ -92,12 +97,12 @@ export default function Home() {
         .sort((a, b) => (a.distance || Infinity) - (b.distance || Infinity));
 
       setLocations(locationsWithDistance);
-    } catch (err) {
+    } catch { // Removed unused err parameter
       setError("Failed to fetch locations.");
     } finally {
       setLoading(false);
     }
-  }, 500);
+  }, 500), []);
 
   useEffect(() => {
     getLocation();
@@ -107,7 +112,7 @@ export default function Home() {
     if (userLocation) {
       fetchLocations(userLocation.lat, userLocation.lng);
     }
-  }, [userLocation]);
+  }, [userLocation, fetchLocations]); // Added fetchLocations to dependencies
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#FF9933] via-white to-[#138808]">
@@ -129,9 +134,10 @@ export default function Home() {
               <div className="w-8 h-8 bg-[#FF9933] rounded-full"></div>
               {/* Ashoka Chakra in middle circle */}
               <div className="w-8 h-8 bg-white border-2 border-gray-800 rounded-full flex items-center justify-center">
-                <img 
+                <Image 
                   src="https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg"
-                  className="w-5 h-5"
+                  width={20}
+                  height={20}
                   alt="Ashoka Chakra"
                 />
               </div>
@@ -212,9 +218,11 @@ export default function Home() {
             {/* Locations List */}
             <section className="bg-white rounded-xl shadow-lg p-6 border-2 border-gray-200">
               <h2 className="text-2xl font-semibold mb-6 text-black flex items-center">
-                <img 
+                <Image 
                   src="https://upload.wikimedia.org/wikipedia/commons/1/17/Ashoka_Chakra.svg" 
-                  className="w-8 h-8 mr-3"
+                  width={32}
+                  height={32}
+                  className="mr-3"
                   alt="Ashoka Chakra"
                 />
                 Nearby Educational Institutions
